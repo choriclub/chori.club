@@ -319,6 +319,24 @@
 	.cards {
   		flex: none;
 		}
+
+	/* Cards tap behavior */
+	.card {
+  		position: relative;
+  		cursor: pointer;
+	}
+
+	.card .card-overlay {
+  		opacity: 0;
+  		transform: translateY(10px);
+  		transition: all 0.25s ease;
+	}
+
+	/* Card activa */
+	.card.active .card-overlay {
+  		opacity: 1;
+  		transform: translateY(0);
+	}
       }
 
  	/* ACABA LA FUNCION @MEDIA, QUE DA FORMATO A LA WEB DEL MOVIL*/
@@ -556,5 +574,14 @@
 
     </main>
   </div>
+  <script>
+  if (window.innerWidth <= 600) {
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('active');
+      });
+    });
+  }
+  </script> 
 </body>
 </html>
