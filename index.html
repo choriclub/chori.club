@@ -291,11 +291,25 @@
   		border-radius: 22px;
 		}
 
-	/* ACTIVAR EL SCROLL EN EL MOVIL */
 
+	/* ===== FIX SCROLL MOBILE (DEFINITIVO) ===== */
+
+	/* Permitir que la app crezca */
+	.app {
+  		height: auto;
+  		min-height: 100vh;
+	}
+
+	/* Contenido con scroll real */
 	.content {
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
+  		overflow-y: auto;
+		overflow-x: hidden;
+  		-webkit-overflow-scrolling: touch;
+	}
+
+	/* Asegurar que las cards empujan hacia abajo */
+	.cards {
+  		flex: none;
 		}
       }
 
