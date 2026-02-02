@@ -171,7 +171,7 @@
     }
 	
 
-    /* ===== RESPONSIVE ===== */
+    /* ===== RESPONSIVE =====    HERO TABLET FIX*/
     @media (max-width: 900px) {
       .cards {
         grid-template-columns: repeat(2, 1fr);
@@ -181,6 +181,26 @@
     @media (max-width: 600px) {
       .app {
         flex-direction: column;
+	.hero {
+		min-height: 65vh;
+		padding 24px 18px;
+		border-radius: 18px;
+		background-size: cover;
+		background-position: center;
+	       }
+
+	.hero h1 {
+		font-size: 34px;
+		line-height: 1.15;
+		margin-bottom: 14px;
+		}
+
+	.hero p {
+		font-size: 16px;
+		line-height: 1.6;
+		max-width: 100%;
+		padding: 0 6px;
+		}
       }
 
       .sidebar {
@@ -226,7 +246,18 @@
 	margin-bottom: 16px;
 	}
 
-     .card-1 {
+     /*.card-1 {
+	background-image:
+        linear-gradient(
+          rgba(10, 28, 255, 0.45),
+          rgba(10, 28, 52, 0.45)
+        ), url("card-1.png");
+	background-size: cover;
+      	background-position: center;
+      	background-repeat: no-repeat;
+	}*/
+
+	.card-1 {
 	background-image:
         linear-gradient(
           rgba(10, 28, 255, 0.45),
@@ -269,7 +300,63 @@
       	background-position: center;
       	background-repeat: no-repeat;
 	}
+	/* HACEMOS QUE NUESTRAS CARDS AL PASAR EL RATÓN MUESTREN EL TEXTO QUE SE LES INDICA*/
+
+	.card {
+		position: relative;
+		overflow: hidden;
+	       }
+
+	.card-tittle {
+		position: relative;
+		z-index: 1;
+		}
+
+	.card-overlay {
+		position: absolute;
+		inset: 0;
+		padding: 16px;
+		background: rgba (10,28,255,0.9);
+		color: #fff;
+		front-size: 14px;
+		line-height: 1.4;
+		opacity: 0;
+		display: flex;
+		alingn-items: center;
+		z-index: 10;
+		transition: opacity 0.25s ease;
+		}
+	.card-chat .card-overlay {
+		background: rgba(10, 28, 355, 0.4);
+	}	
+
+	.card-chat:hover .card-overlay {
+		opacity: 1;
+	 }
+
+	.card-events .card-overlay {
+		background: rgba(0, 160, 90, 0.4);
+	}
 	
+	.card-events:hover .card-overlay {
+		opacity: 1;
+	}
+	
+	.card-access .card-overlay {
+		background: rgba(0, 0, 0, 0.6);
+	}
+	
+	.card-access:hover .card-overlay {
+		opacity: 1;
+	}
+
+	.card-merch .card-overlay {
+		background: rgba(180, 30, 30, 0.4);
+	}
+	
+	.card-merch:hover .card-overlay {
+		opacity: 1;
+	}
 	
   </style>
 </head>
@@ -311,10 +398,37 @@
 
       <!-- CARDS -->
       <section class="cards">
-        <div class="card card-1">Private Discussions</div>
-        <div class="card card-2">Members Events</div>
-        <div class="card card-3">Limited Access</div>
-        <div class="card card-4">Club Merch</div>
+        <div class="card card-1 card-chat">
+	<span class="card-tittle">Private Discussions</span>
+	<div class="card-overlay">
+		The Chori Club chat offers a private comunication space for members, withd access and visibility determinet by on chain status.
+	</div>
+	</div>
+
+        <div class="card card-2 card-events">
+	<span class="card-tittle">Members Events</span>
+	<div class="card-overlay">
+	Chori Club does no organize free events. Membership grants access to private experiences
+	that may be enabled as the club grows and reaches critical mass"
+	</div>
+	</div>
+
+        <div class="card card-3 card-access">
+	<span class="card-tittle">Limited Access</span>
+	<div class="card-overlay">
+	Access to the Chori Club, is granted only by purchasing and holding $CHORI. 
+	The "Enter the Club" button verifies holder status via wallet connection.
+	No gas is required. No personal data is stored.
+	</div>
+	</div>
+
+        <div class="card card-4 card-merch">
+	<span class="card-tittle">Club Merch</span>
+	<div class="card-overlay">
+	Merchandise is not an obligation of the Chori Club.
+	Exclusive products may be offered to members through different formats, always as optional purchases and never as incentives.
+	</div>
+	</div>
       </section>
 
     </main>
