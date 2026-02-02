@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chorzos Parrilleros Club</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #0b0b0b;
+      color: #fff;
+    }
+
+    /* ===== APP LAYOUT ===== */
+    .app {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 64px;
+      /*background: red !important;*/
+      background-image: url("logo.png");
+      background-size: 75px auto;
+      background-repeat: no-repeat;
+      background-position: left 20px;
+      padding-top: 100px;
+      border-right: 1px solid #0a1cff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      
+      
+    }
+     
+
+    .sidebar .icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 20px;
+      background: #222;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+     .sidebar .icon {
+	position: relative;
+	cursor: pointer;
+    }
+
+     .sidebar .icon::after {
+	content:attr(data-tooltip);
+	position: absolute;
+	left: 52px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: #111;
+	color: #fff;
+	padding: 6px 10px;
+	font-size: 12px;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease;	
+    }
+
+     .sidebar .icon:hover::after {
+	opacity: 1;
+    }	 	
+
+    /* ===== MAIN CONTENT ===== */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 24px 24px 24px;
+      overflow: hidden;
+    }
+
+    /* ===== TOP MENU ===== */
+    .top-menu {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #0a1cff;
+      margin-bottom: 16px;
+    }
+
+    .top-menu span {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    /* ===== HERO (60%) ===== */
+       .hero {
+       flex: 0 0 60%;
+       min-height: 60vh;
+       /*padding: 24px;*/
+       margin-bottom: 16px;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       background-image:
+        linear-gradient(
+          rgba(10, 28, 52, 0.45),
+          rgba(10, 28, 52, 0.45)
+        ), url("banerprincipal.png");
+	background-size: 1800px 1100px;
+      	background-position: center;
+      	background-repeat: no-repeat;
+        border-radius: 28px;
+	/*box-shadow:
+		0 20px 40px rgba(0, 0, 0, 0.35),
+		inset 0 1px 0 rgba(255, 255, 255, 0.08);*/
+    }
+
+    .hero h1 {
+      margin: 0 0 12px 0;
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      text-align: center;
+      
+    }
+    .hero h1 {
+       text-shadow: 0 6px 20px;
+       rgba (0,0,0,0.45);
+ 	    
+	     }
+
+    .hero p {
+      opacity: 0.9;
+      max-width: 680px;
+      font-size: 20px;
+      line-height: 1.6;
+      text-align: center;
+      margin: 0 auto;
+      
+    }
+
+    /* ===== CARDS (40%) ===== */
+    .cards {
+      flex: 0 0 25%;	
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: #3a2f24;	
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-end;
+      font-size: 13px;
+      opacity: 1;
+    }
+	
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .app {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        flex-direction: row;
+        width: 100%;
+        height: 56px;
+        border-right: none;
+        border-bottom: 1px solid #0a1cff;
+        gap: 16px;
+      }
+
+      .content {
+        padding: 16px;
+      }
+
+      .hero {
+        height: 300px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== BOTONES ===== */
+    .top-menu button {
+      background: #0a1cff;
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 6px 14px;
+      border-radius: 18px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .top-menu button:hover {
+      background: #0817cc;
+    }
+
+    .logobaner {
+	width: 40px;
+	height: 40px;
+	margin-bottom: 16px;
+	}
+
+     .card-1 {
+	background-image:
+        linear-gradient(
+          rgba(10, 28, 255, 0.45),
+          rgba(10, 28, 52, 0.45)
+        ), url("card-1.png");
+	background-size: cover;
+      	background-position: center;
+      	background-repeat: no-repeat;
+	}
+
+       .card-2 {
+	background-image:
+        linear-gradient(
+          rgba(10, 28, 255, 0.45),
+          rgba(10, 28, 52, 0.45)
+        ), url("card-2.png");
+	background-size: cover;
+      	background-position: center;
+      	background-repeat: no-repeat;
+	}
+	
+	.card-3 {
+	background-image:
+        linear-gradient(
+          rgba(10, 28, 255, 0.45),
+          rgba(10, 28, 52, 0.45)
+        ), url("card-3.png");
+	background-size: cover;
+      	background-position: center;
+      	background-repeat: no-repeat;
+	}
+
+	.card-4 {
+	background-image:
+        linear-gradient(
+          rgba(10, 28, 80, 0.45),
+          rgba(10, 28, 200, 0.45)
+        ), url("card-4.png");
+	background-size: cover;
+      	background-position: center;
+      	background-repeat: no-repeat;
+	}
+	
+	
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="icon" data-tooltip="Chat">💬</div>
+      <div class="icon" data-tooltip="Envents">🎟</div>
+      <div class="icon" data-tooltip="Merch">👕</div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+
+      <!-- TOP MENU -->
+      <nav class="top-menu">
+        <span>Home</span>
+        <span>Status</span>
+        <span>Members</span>
+ 	<span>   --> Offers</span>
+        <button>Enter the Club</button>
+        <button>Buy CHORI</button>
+	<span>    ############# PRIVATE BETA - ACCESS BY STATUS ############# </span>
+       
+      </nav>
+
+      <!-- HERO -->
+        <section class="hero">
+        <h1>Chorizos Parrilleros Club</h1>
+        <p>
+          Not a meme coin. The difference between being — and being inside.
+          A private club defined by on-chain status.
+        </p>
+      </section>
+
+      <!-- CARDS -->
+      <section class="cards">
+        <div class="card card-1">Private Discussions</div>
+        <div class="card card-2">Members Events</div>
+        <div class="card card-3">Limited Access</div>
+        <div class="card card-4">Club Merch</div>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>
