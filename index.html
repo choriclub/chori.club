@@ -372,6 +372,21 @@
 	}
       }
 
+	/* ===== DEBUG TAP MODE (OVERRIDE TOTAL) ===== */
+	.card .card-overlay {
+		opacity: 0 !important;
+  		position: absolute !important;
+  		inset: 0 !important;
+  		background: rgba(255, 0, 0, 0.8) !important;
+  		display: flex !important;
+	  	align-items: center !important;
+  		justify-content: center !important;
+	}
+
+	.card.active .card-overlay {
+  		opacity: 1 !important;
+	}
+
  	/* ACABA LA FUNCION @MEDIA, QUE DA FORMATO A LA WEB DEL MOVIL*/
 
 
@@ -608,21 +623,14 @@
     </main>
   </div>
   <script>
-  if (window.innerWidth <= 600) {
-    const cards = document.querySelectorAll('.card');
-
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        // Cerrar todas las demás
-        cards.forEach(c => {
-          if (c !== card) c.classList.remove('active');
-        });
-
-        // Toggle solo en la pulsada
-        card.classList.toggle('active');
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.card').forEach(c => {
+        if (c !== card) c.classList.remove('active');
       });
+      card.classList.toggle('active');
     });
-  }
+  });
 </script>
 </body>
 </html>
