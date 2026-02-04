@@ -733,42 +733,49 @@ async function enterClub() {
   try {
     let provider;
 
+    // 1️⃣ Detectar provider (PC o móvil)
     if (window.ethereum) {
-      // MetaMask (desktop o mobile browser)
+      // Desktop o móvil con MetaMask in-browser
       await window.ethereum.request({ method: "eth_requestAccounts" });
-      provider = new ethers.providers.Web3Provider(window.ethereum);
+      provider = new ethers.providers.Web3Provider(window.ethereum, "any");
     } else {
-      // WalletConnect (mobile normal)
+      // WalletConnect (móvil REAL)
       const wcProvider = new WalletConnectProvider.default({
         rpc: { 56: "https://bsc-dataseed.binance.org/" }
       });
-      await wcProvider.enable();
-      provider = new ethers.providers.Web3Provider(wcProvider);
+
+      await wcProvider.enable(); // 🔑 AQUÍ la wallet vuelve al navegador
+      provider = new ethers.providers.Web3Provider(wcProvider, "any");
     }
 
+    // 2️⃣ Obtener cuenta
     const signer = provider.getSigner();
     const userAddress = await signer.getAddress();
 
+    // 3️⃣ Comprobar red
     const network = await provider.getNetwork();
     if (network.chainId !== 56) {
-      alert("Please connect to Binance Smart Chain");
+      alert("Please connect to Binance Smart Chain (BSC)");
       return;
     }
 
+    // 4️⃣ Comprobar CHORI
     const chori = new ethers.Contract(
       CHORI_TOKEN,
-      ERC20_ABI,
+      ["function balanceOf(address) view returns (uint256)"],
       provider
     );
 
     const balance = await chori.balanceOf(userAddress);
 
     if (balance.gt(0)) {
+      document.body.classList.remove("holder");
+      void document.body.offsetWidth;
       document.body.classList.add("holder");
       document.querySelector(".hero").innerHTML=
       `<h1>Welcome to Chori Club </h1>		
       <p> Status veried on-chain.
-	Private access granted.</p>`; 	
+      Private access granted.</p>`; 	
     } else {
       alert("You need to hold CHORI to enter the club.");
     }
@@ -779,6 +786,7 @@ async function enterClub() {
   }
 }
 </script>
+
 
 
 <script>
