@@ -726,17 +726,32 @@
 const CHORI_TOKEN = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
 const ERC20_ABI = ["function balanceOf(address owner) view returns (uint256)"];
 const BSC_CHAIN_ID = "0x38";
+</script>
 
+<script>
 async function enterClub() {
 
-  // 1️⃣ SI NO HAY PROVIDER → ABRIR METAMASK
+  // 🔔 MENSAJE INICIAL (SIEMPRE)
+  alert(
+    "🔐 Access required\n\n" +
+    "We are going to connect to your wallet to verify your CHORI status.\n" +
+    "• No gas required\n" +
+    "• No data stored\n" +
+    "• On-chain verification only"
+  );
+
+  // 1️⃣ SI NO HAY WALLET → ABRIR METAMASK APP (MÓVIL)
   if (!window.ethereum) {
+    alert(
+      "📱 Mobile wallet detected.\n\n" +
+      "You will be redirected to MetaMask to continue."
+    );
     window.location.href = "https://metamask.app.link/dapp/chori.club";
     return;
   }
 
   try {
-    // 2️⃣ PEDIR CONEXIÓN
+    // 2️⃣ PEDIR CONEXIÓN WALLET
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts"
     });
@@ -746,34 +761,44 @@ async function enterClub() {
 
     // 3️⃣ COMPROBAR RED
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    if (chainId !== BSC_CHAIN_ID) {
-      alert("Please connect to Binance Smart Chain (BSC)");
+    if (chainId !== "0x38") {
+      alert("❌ Please connect your wallet to Binance Smart Chain (BSC).");
       return;
     }
 
-    // 4️⃣ COMPROBAR SALDO
-    const chori = new ethers.Contract(CHORI_TOKEN, ERC20_ABI, provider);
+    // 4️⃣ COMPROBAR SALDO CHORI
+    const chori = new ethers.Contract(
+      "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8",
+      ["function balanceOf(address owner) view returns (uint256)"],
+      provider
+    );
+
     const balance = await chori.balanceOf(userAddress);
 
     if (balance.gt(0)) {
+      // ✅ HOLDER
       document.body.classList.remove("holder");
       void document.body.offsetWidth;
       document.body.classList.add("holder");
       document.querySelector(".hero").innerHTML=
       `<h1>Welcome to Chori Club </h1>		
       <p> Status veried on-chain.
-	Private access granted.</p>`; 	
+	Private access granted.</p>`; 		
+      
     } else {
-      alert("You need to hold CHORI to enter the club.");
+      // ❌ NO HOLDER
+      alert(
+        "🚫 Access denied.\n\n" +
+        "You need to hold CHORI to enter the club."
+      );
     }
 
   } catch (err) {
     console.error(err);
-    alert("Wallet connection cancelled.");
+    alert("⚠️ Wallet connection canceled or failed.");
   }
 }
 </script>
-
 
 <script>
 function grantAccess() {
