@@ -722,65 +722,60 @@
 <script>
 const CHORI_TOKEN = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
 const BSC_CHAIN_ID = "0x38";
-
+const CHORI_ADDRESS = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
+const CHORI_DECIMALS = 18;
 const ERC20_ABI = [
   "function balanceOf(address owner) view returns (uint256)"
 ];
 </script>
 <script>
-const CHORI_ADDRESS = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
-const CHORI_DECIMALS = 18;
-
 async function enterClub() {
   try {
-    // 1️⃣ Detectar wallet
-    if (!window.ethereum) {
-      alert("No wallet detected. Use MetaMask or Trust Wallet.");
+    let provider;
+
+    if (window.ethereum) {
+      // MetaMask (desktop o mobile browser)
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+    } else {
+      // WalletConnect (mobile normal)
+      const wcProvider = new WalletConnectProvider.default({
+        rpc: { 56: "https://bsc-dataseed.binance.org/" }
+      });
+      await wcProvider.enable();
+      provider = new ethers.providers.Web3Provider(wcProvider);
+    }
+
+    const signer = provider.getSigner();
+    const userAddress = await signer.getAddress();
+
+    const network = await provider.getNetwork();
+    if (network.chainId !== 56) {
+      alert("Please connect to Binance Smart Chain");
       return;
     }
 
-    // 2️⃣ Pedir conexión SIEMPRE
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts"
-    });
-    const user = accounts[0];
+    const chori = new ethers.Contract(
+      CHORI_TOKEN,
+      ERC20_ABI,
+      provider
+    );
 
-    // 3️⃣ Comprobar red BSC
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    if (chainId !== "0x38") {
-      alert("Please switch to Binance Smart Chain");
-      return;
-    }
+    const balance = await chori.balanceOf(userAddress);
 
-    // 4️⃣ Leer saldo CHORI
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const abi = ["function balanceOf(address) view returns (uint256)"];
-    const token = new ethers.Contract(CHORI_ADDRESS, abi, provider);
-
-    const balance = await token.balanceOf(user);
-
-    // 5️⃣ Decisión FINAL
     if (balance.gt(0)) {
-      document.body.classList.remove("holder");
-      void document.body.offsetWidth; // reset visual
       document.body.classList.add("holder");
-
-      // mensaje simple (opcional)
-      document.querySelector(".hero").innerHTML = `
-        <h1>Welcome to CHORI Club</h1>
-        <p>Status verified on-chain. Access granted.</p>
-      `;
+      document.querySelector(".hero").innerHTML=
+      `<h1>Welcome to Chori Club </h1>		
+      <p> Status veried on-chain.
+	Private access granted.</p>`; 	
     } else {
       alert("You need to hold CHORI to enter the club.");
     }
 
   } catch (err) {
-    if (err.code === 4001) {
-      alert("Wallet connection rejected");
-    } else {
-      console.error(err);
-      alert("Wallet connection error");
-    }
+    console.error(err);
+    alert("Wallet connection canceled or failed.");
   }
 }
 </script>
