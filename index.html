@@ -160,6 +160,12 @@
       
     }
 
+    .hero.is-holder {
+	background:
+	   linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.6)),
+		url("banerprincipalprivado.png");
+	}
+	
     /* ===== CARDS (40%) ===== */
     .cards {
       flex: 0 0 25%;	
@@ -177,7 +183,7 @@
       font-size: 13px;
       opacity: 1;
     }
-	
+    
 
     /* ===== RESPONSIVE =====    HERO TABLET FIX*/
     @media (max-width: 900px) {
@@ -216,15 +222,15 @@
 		width: 100%;
 		height: 56px;
 		flex-direction: row;
-		justify.content: center;
+		justify-content: center;
 		align-items: center;
-		gap 18px;
+		gap: 18px;
 		
 		position: sticky;
 		top: 0;
 		z-index: 50;
 		border-right: none;
-		border-bottom: 1 px solid #1f1f1f;
+		border-bottom: 1px solid #1f1f1f;
 		padding: 0;
 		}
 		
@@ -234,7 +240,7 @@
 		margin: 0;
 		width: 40px;
 		height: 40px;	
-		front-size: 18px;
+		font-size: 18px;
 		}
 	
 		/* DESACTIVAMOS TOOLTIPS*/					 
@@ -377,7 +383,7 @@
 		opacity: 0 !important;
   		position: absolute !important;
   		inset: 0 !important;
-  		background: rgba(255, 0, 0, 0.8) !important;
+  		/*background: rgba(255, 0, 0, 0.8) !important;*/
   		display: flex !important;
 	  	align-items: center !important;
   		justify-content: center !important;
@@ -505,11 +511,11 @@
 		padding: 16px;
 		background: rgba (10,28,255,0.9);
 		color: #fff;
-		front-size: 14px;
+		font-size: 14px;
 		line-height: 1.4;
 		opacity: 0;
 		display: flex;
-		alingn-items: center;
+		align-items: center;
 		z-index: 10;
 		transition: opacity 0.25s ease;
 		}
@@ -545,7 +551,76 @@
 		opacity: 1;
 	}
 	
-  </style>
+	.buy-note {
+		font-size: 12px;
+		opacity: 0.6;
+	}
+
+	/* Antes de entrar estas dos funciones desactivan el overlay del ratón sobre las cards*/
+	.card {
+  		opacity: 0.7;
+  		pointer-events: none;
+	      }
+
+       /* Después de entrar */
+	body.holder .card {
+  		opacity: 1;
+  		pointer-events: auto;
+	}	
+
+	/* Estado público: antes de conectar */
+	body:not(.holder) .sidebar .icon,
+	body:not(.holder) span {
+  		pointer-events: none;
+  		opacity: 0.6;
+  		cursor: default;
+	}
+
+	/* Buy siempre activo */
+	body:not(.holder) .btn-buy {
+  		pointer-events: auto;
+  		opacity: 1;
+  		cursor: pointer;
+	}
+	body:not(.holder) .btn-enterClub {
+		pointer-events: auto;
+		opacity: 1;
+		cursor: pointer;
+	}
+
+	/* Estado privado: después de entrar */
+	body.holder .sidebar .icon,
+	body.holder .top-menu span {
+		pointer-events: auto;
+  		opacity: 1;
+  		cursor: pointer;
+	}
+	
+	body.holder .dev-only {
+		pointer-events: auto;
+	}
+
+	body.holder .hero{
+		background-image:url("banerprincipalprivado.png");
+	}
+
+	body:not(.holder) .card {
+		pointer-events: none;
+	}
+	
+	body.holder .card {
+		pointer-events: auto;
+	}
+
+	body.holder .btn-enterClub {
+		pointer-events: none; !important;
+		opacity: 0.1; !important;
+		
+	}
+
+	
+		
+</style>
 </head>
 
 <body>
@@ -554,11 +629,11 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="icon" data-tooltip="Chat">💬</div>
-      <div class="icon" data-tooltip="Envents">🎟</div>
-      <div class="icon" data-tooltip="Merch">👕</div>
-      <div class="icon" data-tooltip="Contact">✉️</div>
-      <div class="icon" data-tooltip="Legal">⚖️</div>	
+      <div class="icon dev-only" data-tooltip="Chat" onclick="showDevNotice()">💬</div>
+      <div class="icon dev-only" data-tooltip="Envents" onclick="showDevNotice()">🎟</div>
+      <div class="icon dev-only" data-tooltip="Merch" onclick="showDevNotice()">👕</div>
+      <div class="icon dev-only" data-tooltip="Contact" onclick="showDevNotice()">✉️</div>
+      <div class="icon dev-only" data-tooltip="Legal" onclick="showDevNotice()">⚖️</div>	
     </aside>
 
     <!-- MAIN CONTENT -->
@@ -570,8 +645,15 @@
         <span>Status</span>
         <span>Members</span>
  	<span>   --> Offers</span>
-        <button>Enter the Club</button>
-        <button>Buy CHORI</button>
+        <button class="enterClub" onclick="enterClub()">Enter the Club</button>
+	<a href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&outputCurrency=0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8"
+  	    target="_blank"
+            rel="noopener noreferrer">
+            <button>Buy CHORI</button>
+	</a>
+	<span class="buy-note">
+	    Only buy via ths link or the official contract on BscScan.
+	</span>
 	<span>    ############# PRIVATE BETA - ACCESS BY STATUS ############# </span>
        
       </nav>
@@ -621,8 +703,9 @@
       </section>
 
     </main>
-  </div>
-  <script>
+ </div>
+  
+ <script>
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
       document.querySelectorAll('.card').forEach(c => {
@@ -631,6 +714,78 @@
       card.classList.toggle('active');
     });
   });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
+<script>
+const CHORI_CONTRACT = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
+const ERC20_ABI = [
+  "function balanceOf(address owner) view returns (uint256)",
+  "function decimals() view returns (uint8)"
+];
+
+async function enterClub() {
+  try {
+    if (!window.ethereum) {
+      alert("MetaMask not detected");
+      return;
+    }
+
+    // 1. Pedir wallet SIEMPRE
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts"
+    });
+    const user = accounts[0];
+
+    // 2. Forzar BSC
+    const chainId = await ethereum.request({ method: "eth_chainId" });
+    if (chainId !== "0x38") {
+      alert("Please switch to Binance Smart Chain");
+      return;
+    }
+
+    // 3. Provider + contrato
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const contract = new ethers.Contract(CHORI_CONTRACT, ERC20_ABI, provider);
+
+    const balance = await contract.balanceOf(user);
+
+    // 4. Decisión FINAL
+    if (balance.gt(0)) {
+      document.body.classList.add("holder");
+      document.querySelector(".hero").innerHTML=
+      `<h1>Welcome to Chori Club </h1>		
+      <p> Status veried on-chain.
+	Private access granted.</p>`; 	
+    } else {
+      alert("You must hold CHORI to enter the club");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Wallet connection cancelled or failed");
+  }
+}
+</script>
+
+<script>
+function grantAccess() {
+  document.getElementById("hero").classList.add("is-holder");
+
+  document.body.classList.add("holder");
+}
+</script>
+
+<script>
+function showDevNotice() {
+  alert("🚧 Section under development.\nAvailable soon for members.");
+}
+</script>
+<script> document.body.classList.remove("holder");</script>
+<script> funcion testClick() {
+	alert("CLICK FUNCIONA");
+	{
 </script>
 </body>
 </html>
