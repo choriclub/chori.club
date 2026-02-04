@@ -732,6 +732,7 @@ const ERC20_ABI = [
 async function enterClub() {
   try {
     let provider;
+    sessionStorage.setItem ("chori_pending", "1");
 
     // 1️⃣ Detectar provider (PC o móvil)
     if (window.ethereum) {
@@ -745,6 +746,7 @@ async function enterClub() {
       });
 
       await wcProvider.enable(); // 🔑 AQUÍ la wallet vuelve al navegador
+      window.ethereum = wcProvider;	
       provider = new ethers.providers.Web3Provider(wcProvider, "any");
     }
 
@@ -785,6 +787,12 @@ async function enterClub() {
     alert("Wallet connection canceled or failed.");
   }
 }
+ window.addEventListener("load", () => {
+  if (sessionStorage.getItem("chori_pending")) {
+    sessionStorage.removeItem("chori_pending");
+    enterClub();
+  }
+});
 </script>
 
 
