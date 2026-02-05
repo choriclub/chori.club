@@ -643,7 +643,7 @@
         <span>Status</span>
         <span>Members</span>
  	<span>   --> Offers</span>
-        <button id="enterClubBtn" onclick="enterClub()">Enter the Club</button>
+        <button id="enterClubBtn" onclick=alert ("BOTON FUNIONA")>Enter the Club</button>
 	<a href="https://pancakeswap.finance/swap?chain=bsc&inputCurrency=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c&outputCurrency=0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8"
   	    target="_blank"
             rel="noopener noreferrer">
@@ -702,15 +702,11 @@
 
     </main>
  </div>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
- <script>
-    const CHORI_CONTRACT = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
-    const ERC20_ABI = [
-    "function balanceOf(address owner) view returns (uint256)",
-    "function decimals() view returns (uint8)"
-     ];
-</script>
+
+
+
+
+
 
 <script>
   document.querySelectorAll('.card').forEach(card => {
@@ -724,80 +720,84 @@
 </script>
 
 
-<script>
-function isMetaMaskBrowser() {
-  return (
-    typeof window.ethereum !== "undefined" &&
-    window.ethereum.isMetaMask === true
-  );
-}
-</script>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="https://unpkg.com/@web3modal/ethereum@2.6.2/dist/index.umd.js"></script>
+<script src="https://unpkg.com/@web3modal/html@2.6.2/dist/index.umd.js"></script>
 
 <script>
-function isMobileDevice() {
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
+const projectId = "d2942f56d072f73c55c0212a747178c4";
+
+const CHORI_TOKEN = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
+const ERC20_ABI = ["function balanceOf(address owner) view returns (uint256)"];
+
+const ethereumClient = new window.Web3ModalEthereum.EthereumClient(
+  new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org/"),
+  [
+    {
+      chainId: 56,
+      name: "Binance Smart Chain",
+      rpcUrl: "https://bsc-dataseed.binance.org/",
+      nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 }
+    }
+  ]
+);
+
+const web3modal = new window.Web3ModalHTML.Web3Modal({
+  projectId,
+  ethereumClient,
+  themeMode: "dark"
+});
 </script>
+
 
 <script>
 async function enterClub() {
-  let provider;
-
   try {
-    // 🖥 DESKTOP → MetaMask inyectado
-    if (window.ethereum) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
-    } 
-    // 📱 MÓVIL → WalletConnect
-    else {
-      const wcProvider = new WalletConnectProvider.default({
-        rpc: {
-          56: "https://bsc-dataseed.binance.org/"
-        }
-      });
+    // 1️⃣ Abrir modal (esto funciona en desktop y móvil)
+    await web3modal.openModal();
 
-      await wcProvider.enable();
-      provider = new ethers.providers.Web3Provider(wcProvider);
-    }
+    // 2️⃣ Obtener provider real
+    const provider = web3modal.getWalletProvider();
+    if (!provider) return;
 
-    // 🔐 Wallet OK
-    const signer = provider.getSigner();
-    const user = await signer.getAddress();
+    const ethersProvider = new ethers.providers.Web3Provider(provider);
+    const signer = ethersProvider.getSigner();
+    const userAddress = await signer.getAddress();
 
-    // 🔗 Red BSC
-    const network = await provider.getNetwork();
+    // 3️⃣ Comprobar red
+    const network = await ethersProvider.getNetwork();
     if (network.chainId !== 56) {
-      alert("Please switch to Binance Smart Chain (BSC)");
+      alert("Please connect to Binance Smart Chain (BSC)");
       return;
     }
 
-    // 🪙 Comprobar CHORI
-    const chori = new ethers.Contract(CHORI_CONTRACT, ERC20_ABI, provider);
-    const balance = await chori.balanceOf(user);
+    // 4️⃣ Comprobar CHORI
+    const chori = new ethers.Contract(
+      CHORI_TOKEN,
+      ERC20_ABI,
+      ethersProvider
+    );
+
+    const balance = await chori.balanceOf(userAddress);
 
     if (balance.gt(0)) {
       document.body.classList.add("holder");
-      // 🎉 Mensaje de bienvenida
-      const hero = document.querySelector(".hero");
-         if (hero) {
-         hero.innerHTML = `
-         <h1>Welcome to CHORI Club</h1>
-         <p>Status verified on-chain.</p>
-         <p><strong>Private access granted.</strong></p>
-        `;
-                  }	
-         disableEnterButton?.();
-      
+      document.querySelector(".hero").innerHTML = `
+        <h1>Welcome to CHORI Club</h1>
+        <p>Access granted by on-chain status.</p>
+      `;
     } else {
-      alert("You must hold CHORI to enter the club.");
+      alert("You need to hold CHORI to enter the club.");
     }
 
-  } catch (err) {
-    console.warn("wallet warning.", err);
+  } catch (e) {
+    console.error(e);
+    alert("Wallet connection cancelled.");
   }
 }
 </script>
+
 
 
 <script>
