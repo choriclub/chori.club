@@ -748,7 +748,8 @@ async function enterClubMobile() {
   alert("We will connect to your wallet to verify CHORI holding. No gas required.");
 
   // 🔹 Abrimos la wallet app y volvemos a la web
-  window.location.href = "https://metamask.app.link/dapp/https://chori.club";
+  const dappUrl = encodeURIComponent("https://chori.club");
+  window.location.href = "https://metamask.app.link/dapp/" + dappUrl;
 }
 </script>
 
