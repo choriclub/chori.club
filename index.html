@@ -714,15 +714,24 @@
   });
 </script>
 
-//<script>
-  //function isMobileDevice() {
-  //return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-//}
-//</script>
+<script>
+  function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+</script>
+
+<script>
+   isMetaMaskBrowser() {
+   return (typeof window.ethereum !== "undefined" &&
+   window.eteherum.isMetaMask === true &&
+   navigator.user.toLowerCase().includes("metamask")
+);
+}
+</script>
 
 <script>
 async function enterClub() {
-  if (!window.ethereum()) {
+  if (isMobileDevice() && !isMetaMaskBrowser()) {
     enterClubMobile();
   } else {
     enterClubDesktop(); // 👈 TU FUNCIÓN ACTUAL, SIN CAMBIOS
@@ -739,7 +748,6 @@ async function enterClubMobile() {
   alert("We will connect to your wallet to verify CHORI holding. No gas required.");
 
   // 🔹 Abrimos la wallet app y volvemos a la web
-  //const dappUrl = encodeURIComponent("https://chori.club");
   window.location.href = "https://metamask.app.link/dapp/https://chori.club";
 }
 </script>
@@ -802,6 +810,32 @@ function showDevNotice() {
   alert("🚧 Section under development.\nAvailable soon for members.");
 }
 </script>
+<script>
+window.addEventListener("load", async () => {
+  if (!isMobileDevice()) return;
+  if (!window.ethereum) return;
 
+  try {
+    const accounts = await window.ethereum.request({
+      method: "eth_accounts"
+    });
+
+    if (!accounts || !accounts.length) return;
+
+    // 👇 AQUÍ USAS EXACTAMENTE TU CÓDIGO DESKTOP DE COMPROBAR CHORI
+    // NO INVENTAMOS NADA
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const chori = new ethers.Contract(CHORI_TOKEN, ERC20_ABI, provider);
+    const balance = await chori.balanceOf(accounts[0]);
+
+    if (balance.gt(0)) {
+      document.body.classList.add("holder");
+      disableEnterButton();
+    }
+  } catch (e) {
+    console.log("Mobile check skipped");
+  }
+});
+</script>
 </body>
 </html>
