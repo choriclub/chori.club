@@ -802,40 +802,11 @@ async function enterClubDesktop() {
   }
 }
 </script>
-
-
-
 <script>
 function showDevNotice() {
   alert("🚧 Section under development.\nAvailable soon for members.");
 }
 </script>
-<script>
-window.addEventListener("load", async () => {
-  if (!isMobileDevice()) return;
-  if (!window.ethereum) return;
 
-  try {
-    const accounts = await window.ethereum.request({
-      method: "eth_accounts"
-    });
-
-    if (!accounts || !accounts.length) return;
-
-    // 👇 AQUÍ USAS EXACTAMENTE TU CÓDIGO DESKTOP DE COMPROBAR CHORI
-    // NO INVENTAMOS NADA
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const chori = new ethers.Contract(CHORI_TOKEN, ERC20_ABI, provider);
-    const balance = await chori.balanceOf(accounts[0]);
-
-    if (balance.gt(0)) {
-      document.body.classList.add("holder");
-      disableEnterButton();
-    }
-  } catch (e) {
-    console.log("Mobile check skipped");
-  }
-});
-</script>
 </body>
 </html>
