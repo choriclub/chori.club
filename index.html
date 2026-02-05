@@ -495,11 +495,6 @@
     </main>
  </div>
 
-
-
-
-
-
 <script>
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
@@ -511,11 +506,38 @@
   });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
+<script>
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
 
+function isMetaMaskBrowser () {
+	return !!window.ethereum && window.ethereum.isMetaMask;
+	}
 
+</script>
 
+<script>
+async function enterClub() {
+  // 1️⃣ YA ESTAMOS EN METAMASK → flujo DESKTOP
+  if (isMetaMaskBrowser()) {
+    enterClubDesktop();
+    return;
+  }
 
+  // 2️⃣ MÓVIL NORMAL (Chrome / Safari) → abrir MetaMask
+  if (isMobileDevice()) {
+    alert("We will connect to your wallet to verify CHORI holding. No gas required.");
+    window.location.href = "https://metamask.app.link/dapp/https://chori.club";
+    return;
+  }
+
+  // 3️⃣ DESKTOP NORMAL
+  enterClubDesktop();
+}
+</script>
 
 <script>
 async function enterClubMobile() {
@@ -528,60 +550,13 @@ async function enterClubMobile() {
 }
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-
 <script>
-const CHORI_TOKEN = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
+const CHORI_CONTRACT = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
 const ERC20_ABI = [
-  "function balanceOf(address owner) view returns (uint256)"
+  "function balanceOf(address owner) view returns (uint256)",
+  "function decimals() view returns (uint8)"
 ];
 
-async function enterClub() {
-  if (!window.ethereum) {
-    alert("Please open this site with MetaMask.");
-    return;
-  }
-
-  try {
-    // 1️⃣ Pedir conexión (desktop y móvil)
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts"
-    });
-
-    if (!accounts || !accounts.length) {
-      alert("Wallet connection cancelled.");
-      return;
-    }
-
-    const userAddress = accounts[0];
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-    // 2️⃣ Comprobar red BSC
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    if (chainId !== "0x38") {
-      alert("Please switch to Binance Smart Chain (BSC).");
-      return;
-    }
-
-    // 3️⃣ Comprobar CHORI
-    const chori = new ethers.Contract(CHORI_TOKEN, ERC20_ABI, provider);
-    const balance = await chori.balanceOf(userAddress);
-
-    if (balance.gt(0)) {
-      document.body.classList.add("holder");
-      alert("Welcome to CHORI Club.");
-    } else {
-      alert("You need to hold CHORI to enter the club.");
-    }
-
-  } catch (err) {
-    console.error(err);
-    alert("Wallet connection failed.");
-  }
-}
-</script>
-
-<script>
 async function enterClubDesktop() {
   try {
     if (!window.ethereum) {
@@ -626,6 +601,7 @@ async function enterClubDesktop() {
   }
 }
 </script>
+
 <script>
 function showDevNotice() {
   alert("🚧 Section under development.\nAvailable soon for members.");
