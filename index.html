@@ -782,6 +782,7 @@ async function enterClubDesktop() {
       method: "eth_requestAccounts"
     });
     const user = accounts[0];
+    await new Promise(resolve => setTimeout(resolve,300));
 
     // 2. Forzar BSC
     const chainId = await ethereum.request({ method: "eth_chainId" });
