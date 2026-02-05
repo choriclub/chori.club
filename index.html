@@ -24,7 +24,7 @@
       height: 100vh;
       width: 100%;
     }
-    @media (max-width: 600px) {
+   /* @media (max-width: 600px) {
 	.app {
 	  height: auto;
 	  min-height: 100vh;
@@ -32,7 +32,7 @@
 	body {
 	  overflow-y: auto;
 	}
-	}
+	}*/
     /* ===== SIDEBAR ===== */
     .sidebar {
       width: 64px;
@@ -185,150 +185,11 @@
     }
     
 
-    /* ===== RESPONSIVE =====    HERO TABLET FIX*/
-    @media (max-width: 900px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+    /* ===== PARA DARLE FORMATO A LA PANTALLA DEL MOVIL */
 
     @media (max-width: 600px) {
       .app {
         flex-direction: column;
-	.hero {
-		min-height: 65vh;
-		padding 24px 18px;
-		border-radius: 18px;
-		background-size: cover;
-		background-position: center;
-	       }
-
-	.hero h1 {
-		font-size: 34px;
-		line-height: 1.15;
-		margin-bottom: 14px;
-		}
-
-	.hero p {
-		font-size: 16px;
-		line-height: 1.6;
-		max-width: 100%;
-		padding: 0 6px;
-		}
-	
-
-	/*   BARRA LATERAL EN LA WEB CONVERTIMOS A CENTRAL ARRIBA */
-	.sidebar {
-		width: 100%;
-		height: 56px;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		gap: 18px;
-		
-		position: sticky;
-		top: 0;
-		z-index: 50;
-		border-right: none;
-		border-bottom: 1px solid #1f1f1f;
-		padding: 0;
-		}
-		
-		/* ICONOS MAS GRANDES Y CENTRADOS*/
-
-	.sidebar .icon {
-		margin: 0;
-		width: 40px;
-		height: 40px;	
-		font-size: 18px;
-		}
-	
-		/* DESACTIVAMOS TOOLTIPS*/					 
-
-	.sidebar .icon::after {
-		display: none;
-		}
-
-
-	/* ===== CARDS MOBILE LAYOUT ===== */
-	/*.cards {
-		display: flex;
-  		flex-direction: column;
-		gap: 16px;
-	}
-
-	/* Cards grandes y legibles */
-	.card {
-  		min-height: 140px;
-		padding: 18px;
-  		border-radius: 16px;
-  		font-size: 15px;
-	}
-
-	/* Mostrar siempre el contenido (sin hover) */
-	.card .card-overlay {
-		position: static;
-  		opacity: 1;
-  		transform: none;
-		background: transparent;
-  		color: #fff;
-  		padding: 0;
-	}*/
-
-	/* NUEVO DISEÑO DE CARDS PARA MOVIL PARA QUE SALGA TEXTO SI SE PULSAN*/
-	
-	.cards {
-  		display: flex;
-		flex-direction: column;
-  		gap: 16px;
-		}
-
-	.card {
-  		position: relative;
-  		min-height: 140px;
-  		padding: 18px;
-	  	cursor: pointer;
-		}
-
-	.card .card-overlay {
-  		position: absolute;
-  		inset: 0;
-	  	padding: 18px;
-  		opacity: 0;
-  		background: rgba(0, 0, 0, 0.85);
-  		transition: opacity 0.25s ease;
-  		display: flex;
-  		align-items: center;
-  		justify-content: center;
-	  	text-align: center;
-		}
-
-	.card.active .card-overlay {
-  		opacity: 1;
-		}
-
-	
-	/* Desactivar efectos hover en móvil */
-	.card:hover .card-overlay {
-  		opacity: 1;
-  		transform: none;
-	}
-	
-
-	/* ===== TOP MENU MOBILE FIX ===== */
-       .top-menu {
- 		flex-wrap: wrap;
-  		gap: 12px;
-  		justify-content: center;
-  		padding-bottom: 12px;
-		}
-
-	/* Texto del menú más compacto */
-       .top-menu span {
-  		font-size: 13px;
-  		opacity: 0.85;
-		}
-
 	/* Botones grandes y tocables */
 	.top-menu button {
   		flex: 1 1 100%;
@@ -338,88 +199,19 @@
   		border-radius: 22px;
 		}
 
-
-	/* ===== FIX SCROLL MOBILE (DEFINITIVO) ===== */
-
-	/* Permitir que la app crezca */
-	.app {
-  		height: auto;
-  		min-height: 100vh;
-	}
-
-	/* Contenido con scroll real */
-	.content {
-  		overflow-y: auto;
-		overflow-x: hidden;
-  		-webkit-overflow-scrolling: touch;
-	}
-
-	/* Asegurar que las cards empujan hacia abajo */
-	.cards {
-  		flex: none;
-		}
-
-	/* Cards tap behavior */
-	.card {
-  		position: relative;
-  		cursor: pointer;
-	}
-
-	.card .card-overlay {
-  		opacity: 0;
-  		transform: translateY(10px);
-  		transition: all 0.25s ease;
-	}
-
+	
 	/* Card activa */
 	.card.active .card-overlay {
   		opacity: 1;
   		transform: translateY(0);
-	}
-      }
+	         }
+     }
 
-	/* ===== DEBUG TAP MODE (OVERRIDE TOTAL) ===== */
-	.card .card-overlay {
-		opacity: 0 !important;
-  		position: absolute !important;
-  		inset: 0 !important;
-  		/*background: rgba(255, 0, 0, 0.8) !important;*/
-  		display: flex !important;
-	  	align-items: center !important;
-  		justify-content: center !important;
-	}
-
-	.card.active .card-overlay {
-  		opacity: 1 !important;
-	}
-
- 	/* ACABA LA FUNCION @MEDIA, QUE DA FORMATO A LA WEB DEL MOVIL*/
-
-
-      .sidebar {
-        flex-direction: row;
-        width: 100%;
-        height: 56px;
-        border-right: none;
-        border-bottom: 1px solid #0a1cff;
-        gap: 16px;
-      }
-
-      .content {
-        padding: 16px;
-      }
-
-      .hero {
-        height: 300px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ===== BOTONES ===== */
-    .top-menu button {
+ 	
+   }
+      /* ACABA LA FUNCION @MEDIA, QUE DA FORMATO A LA WEB DEL MOVIL*/
+    /* ===== LE DA FORMATO A LOS BOTONES, FONDO AZUL REDONDEADOS, CON LETRA BLANCA... ==== */
+      .top-menu button {
       background: #0a1cff;
       color: #fff;
       border: 1px solid #fff;
