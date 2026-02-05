@@ -714,15 +714,15 @@
   });
 </script>
 
-<script>
-  function isMobileDevice() {
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-</script>
+//<script>
+  //function isMobileDevice() {
+  //return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+//}
+//</script>
 
 <script>
 async function enterClub() {
-  if (isMobileDevice()) {
+  if (!window.ethereum()) {
     enterClubMobile();
   } else {
     enterClubDesktop(); // 👈 TU FUNCIÓN ACTUAL, SIN CAMBIOS
@@ -739,8 +739,8 @@ async function enterClubMobile() {
   alert("We will connect to your wallet to verify CHORI holding. No gas required.");
 
   // 🔹 Abrimos la wallet app y volvemos a la web
-  const dappUrl = encodeURIComponent("https://chori.club");
-  window.location.href = "https://metamask.app.link/dapp/" + dappUrl;
+  //const dappUrl = encodeURIComponent("https://chori.club");
+  window.location.href = "https://metamask.app.link/dapp/https://chori.club";
 }
 </script>
 
