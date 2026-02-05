@@ -702,8 +702,17 @@
 
     </main>
  </div>
-  
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
  <script>
+    const CHORI_CONTRACT = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
+    const ERC20_ABI = [
+    "function balanceOf(address owner) view returns (uint256)",
+    "function decimals() view returns (uint8)"
+     ];
+</script>
+
+<script>
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
       document.querySelectorAll('.card').forEach(c => {
@@ -732,25 +741,64 @@ function isMobileDevice() {
 
 <script>
 async function enterClub() {
-  // 1️⃣ YA ESTAMOS EN METAMASK → flujo DESKTOP
-  if (isMetaMaskBrowser()) {
-    enterClubDesktop();
-    return;
-  }
+  let provider;
 
-  // 2️⃣ MÓVIL NORMAL (Chrome / Safari) → abrir MetaMask
-  if (isMobileDevice()) {
-    alert("We will connect to your wallet to verify CHORI holding. No gas required.");
-    window.location.href = "https://metamask.app.link/dapp/https://chori.club";
-    return;
-  }
+  try {
+    // 🖥 DESKTOP → MetaMask inyectado
+    if (window.ethereum) {
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+    } 
+    // 📱 MÓVIL → WalletConnect
+    else {
+      const wcProvider = new WalletConnectProvider.default({
+        rpc: {
+          56: "https://bsc-dataseed.binance.org/"
+        }
+      });
 
-  // 3️⃣ DESKTOP NORMAL
-  enterClubDesktop();
+      await wcProvider.enable();
+      provider = new ethers.providers.Web3Provider(wcProvider);
+    }
+
+    // 🔐 Wallet OK
+    const signer = provider.getSigner();
+    const user = await signer.getAddress();
+
+    // 🔗 Red BSC
+    const network = await provider.getNetwork();
+    if (network.chainId !== 56) {
+      alert("Please switch to Binance Smart Chain (BSC)");
+      return;
+    }
+
+    // 🪙 Comprobar CHORI
+    const chori = new ethers.Contract(CHORI_CONTRACT, ERC20_ABI, provider);
+    const balance = await chori.balanceOf(user);
+
+    if (balance.gt(0)) {
+      document.body.classList.add("holder");
+      // 🎉 Mensaje de bienvenida
+      const hero = document.querySelector(".hero");
+         if (hero) {
+         hero.innerHTML = `
+         <h1>Welcome to CHORI Club</h1>
+         <p>Status verified on-chain.</p>
+         <p><strong>Private access granted.</strong></p>
+        `;
+                  }	
+         disableEnterButton?.();
+      
+    } else {
+      alert("You must hold CHORI to enter the club.");
+    }
+
+  } catch (err) {
+    console.warn("wallet warning.", err);
+  }
 }
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
 <script>
 async function enterClubMobile() {
@@ -763,13 +811,9 @@ async function enterClubMobile() {
 }
 </script>
 
-<script>
-const CHORI_CONTRACT = "0xCb4c4Ab7EA9A6fc417E2110Ef4073fa5614Aa5a8";
-const ERC20_ABI = [
-  "function balanceOf(address owner) view returns (uint256)",
-  "function decimals() view returns (uint8)"
-];
 
+
+<script>
 async function enterClubDesktop() {
   try {
     if (!window.ethereum) {
