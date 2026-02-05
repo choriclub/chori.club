@@ -715,30 +715,42 @@
 </script>
 
 <script>
-  function isMobileDevice() {
+function isMobileDevice() {
   return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function isMetaMaskBrowser() {
+  return (
+    typeof window.ethereum !== "undefined" &&
+    window.ethereum.isMetaMask === true &&
+    /MetaMask/i.test(navigator.userAgent)
+  );
 }
 </script>
 
-<script>
-   isMetaMaskBrowser() {
-   return (typeof window.ethereum !== "undefined" &&
-   window.eteherum.isMetaMask === true &&
-   navigator.user.toLowerCase().includes("metamask")
-);
-}
-</script>
 
 <script>
 async function enterClub() {
- 	if (isMobileDevice() && !window.ethereum){
-		enterClubMobile();
-		return;
-	}
-	enterClubDesktop();
-    }
-</script>
+  // 🖥 DESKTOP → funciona como siempre
+  if (!isMobileDevice()) {
+    enterClubDesktop();
+    return;
+  }
 
+  // 📱 MÓVIL + CHROME / SAFARI → abrir MetaMask UNA VEZ
+  if (isMobileDevice() && !isMetaMaskBrowser()) {
+    alert("We will connect to your wallet to verify CHORI holding. No gas required.");
+    window.location.href = "https://metamask.app.link/dapp/https://chori.club";
+    return;
+  }
+
+  // 📱 MÓVIL DENTRO DE METAMASK → comprobar CHORI
+  if (isMetaMaskBrowser()) {
+    enterClubDesktop(); // reutilizamos EXACTAMENTE la lógica desktop
+    return;
+  }
+}
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
