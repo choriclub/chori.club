@@ -33,7 +33,10 @@
 	  overflow-y: auto;
 	}
 	}*/
-    /* ===== SIDEBAR ===== */
+    
+
+
+/* ===== SIDEBAR ===== */
     .sidebar {
       width: 64px;
       /*background: red !important;*/
@@ -52,7 +55,6 @@
       
     }
      
-
     .sidebar .icon {
       width: 36px;
       height: 36px;
@@ -221,44 +223,37 @@
 			
 	.top-menu {
 		display: flex;
-		flex-direction: row
 		flex-wrap: wrap;
-		align-items: center;
+		justify-content: center;
 		gap: 12px;
 		text-align: center;
-		overflow: visible !important;
-		height: auto !important;
-		max-height: none !important;
+		
 		}
 
-	/*.top-menu span {
-		display: inline;
-		margin: 0;
+	.top-menu span {
+		display: inLine-block;
+		white-space: nowrap;
 		font-size: 14px;
 		opacity: 0.9;
 		}
-
-	.top-menu span:nth-child(-n+4) {
-		white-space: nowrap;
-		}*/
+	
+	#enterClubBtn, .top-menu a {
+		flex-basis: 100%;
+		display: flex;
+		justify-content: center;
+		}
 
 	#enterClubBtn, .top-menu a button {
 		width: 90%;
-		max-with: 260px;
+		max-width: 260px;
 		box-sizing: border-box;
 		}
-	
-
+			
 	/* TEXTOS INFORMATIVOS */
-	.buy-note, .top-menu span:last-child {
+	/*.buy-note, .top-menu span:last-child {
 		font-size: 12px;
 		opacity: 0.7;
-		}
-
-	#enterClubBtn {
-		margin-top: 12px;
-		}
-
+		}*/
 		
 	.hero {
 		min-height: 60vh;
@@ -455,6 +450,38 @@
   		opacity: 1;
   		pointer-events: auto;
 	}	
+	
+	.hero {
+	     display: flex;
+	      }
+	.hero-inner {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		gap: 32px;
+		}
+
+	.hero-left {
+		background: rgba(10,28,255, 0.20);
+		backdrop-filter: blur(2px);
+		border: 1px solid rgba(255,255,255, 0.12);
+		border-radius: 16px;
+		padding: 20px 24px;
+		max-width: 450px;
+		}
+
+	.hero-left p {
+		
+		flex: 0 0 35%;
+		text-align: left;
+		line-height: 1.55;
+		opacity:0.95;
+	}
+	
+	.hero-right{
+		flex:1;
+		} 
+	     
 
 	/* Estado público: antes de conectar */
 	body:not(.holder) .sidebar .icon,
@@ -505,6 +532,8 @@
 		opacity: 0.5;
 	}
 
+	
+
 		
 </style>
 </head>
@@ -546,12 +575,48 @@
 
       <!-- HERO -->
         <section class="hero">
-        <h1>Chorizos Parrilleros Club</h1>
-        <p>
-          Not a meme coin. The difference between being — and being inside.
-          A private club defined by on-chain status.
-        </p>
-      </section>
+
+        <div class="hero-inner">
+	   <div class="hero-left">
+        	<h2>How access works</h2>
+  		<p>
+    			CHORI Club is not open by registration.
+    			It doesn’t work with emails, passwords, or accounts.
+  		</p>
+
+  		<p>
+   	 		Access is defined <strong>on-chain</strong>.
+   	 		Holding CHORI places you in a tier, and each tier unlocks
+    			a different level of visibility and participation.
+  		</p>
+
+  		<h3>The tiers</h3>
+ 	 	<ul>
+    		   <li><strong>Red Label</strong> — Entry tier. All current holders start here.</li>
+   		   <li><strong>Black Label</strong> — Higher commitment, more relevance.</li>
+    		   <li><strong>Green Label</strong> — Limited tier. Fewer members.</li>
+    		   <li><strong>Blue Label</strong> — Highest tier. Manual approval may apply.</li>
+  	       </ul>
+
+               <p>
+    		Tiers are not cosmetic.
+    		They define who sees what, who can participate, and how.
+  	      </p>
+	   </div>
+	   <div class="hero-right">
+		<h1>Chorizos Parrilleros Club</h1>
+        	<p>
+          		Not a meme coin. The difference between being — and being inside.
+          		A private club defined by on-chain status.
+        	</p>
+	      
+          </div>
+      </div>	
+     </section>
+
+	
+  	
+
 
       <!-- CARDS -->
       <section class="cards">
