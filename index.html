@@ -188,72 +188,50 @@
     /* ===== PARA DARLE FORMATO A LA PANTALLA DEL MOVIL */
 
     @media (max-width: 600px) {
-	body {
-		overflowy-y: auto;
-	     }
 
 	.app {
         flex-direction: column;
-	height: auto;
-	min-height: 100vh;
 	}
 
 	.content {
-		overflow-y: auto;
+		
 		overflow-x: hidden;
 		}
 
 	.top-menu {
 		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: center;
+		flex-direction: column;
 		gap: 12px;
-		position: sticky;
-		top: 56px;
-		z-index: 90;
+		position: relative;
+		top: auto;
+		padding: 12px;
 		background-color: #0b0b0b;
-		padding: 12px 8px:
+		}
 
-		}
 	/* BOTONES SIEMPRE VISIBLES Y ARRIBA*/
-	.top-menu button {
-		flex: 1 1 45%;
-		max-width: 200px;
-		order: 1;
+	.top-menu button, top-menu a {
+		width: 100%;
+		max-width: 280px;
+		margin: 0 auto;
 		}
-	/* TEXTO PARA MENU PASA ABAJO*/
-	.top-menu span {
-		order: 2;
-		font-size: 12px;
-		opacity: 0.7;
-		}
-	/* ASEGURAR QUE BUY CHORI NO SE PIERDE DEL CAMPO DE VISIÓN*/
-	.top-menu a {
-		order: 1;
-		flex: 1 1 45%;
-		max-width: 200px;
-		} 
 		
 	.sidebar {
 		width: 100%;
-		height: 56px
+		height: auto;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 		gap: 16px;
-		position: sticky;
-		top: 0;
-		z-index: 100;
+		position: relative;
+		top: auto;
 		border-right: none;
 		border-bottom: 1px solid #0a1cff;
 		background-color: #0b0b0b;
-		padding: 0;
+		
 		}
 
 	.sidebar .icon {
-		margin: 0;
 		width: 40px;
 		height: 40px;
 		font-size: 18px
@@ -261,8 +239,6 @@
 			
 	.hero {
 		min-height: 60vh;
-		background-size: cover;
-		background-position: center;
 		border.radius: 18px;
 		}
 
@@ -280,15 +256,10 @@
     		display: flex;	
     		flex-direction: column;
     		gap: 16px;
-    		flex: none;
   		}
 
   	  .card {
-    		position: relative;
     		min-height: 140px;
-    		padding: 18px;
-    		border-radius: 16px;
-    		cursor: pointer;
   		}
 
 
