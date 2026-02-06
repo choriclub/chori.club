@@ -221,63 +221,37 @@
 			
 	.top-menu {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row
+		flex-wrap: wrap;
+		align-items: center;
 		gap: 12px;
-		position: relative;
-		}
-	/* HACEMOS LAS CUATRO CATEGORIAS DEL MENU TOP-MENU"
-	.top-menu span:not(.buy-note):nth-child(-n+4) {
-		display: inline-block;
-		font-size: 14px;
-		opacity: 0.9;
-		margin: 0 8px;
+		text-align: center;
 		}
 
-	/* METEMOS LAS CATEGORIAS EN UNA FILA*/
-	.top-menu span:not(.buy-note):nth-child(1),
-	.top-menu span:not(.buy-note):nth-child(2),
-	.top-menu span:not(.buy-note):nth-child(3),
-	.top-menu span:not(.buy-note):nth-child(4) {
+	/*.top-menu span {
 		display: inline;
+		margin: 0;
+		font-size: 14px;
+		opacity: 0.9;
 		}
- 
-	#enterClubBtn {
+
+	.top-menu span:nth-child(-n+4) {
+		white-space: nowrap;
+		}*/
+
+	#enterClubBtn, .top-menu a button {
 		width: 90%;
-		max-width: 280px;
+		max-with: 260px;
+		box-sizing: border-box;
 		}
-		
-	.top-menu a button {
-		width: 90%;
-		max-width: 280px;
-		}
+	
 
 	/* TEXTOS INFORMATIVOS */
 	.buy-note, .top-menu span:last-child {
 		font-size: 12px;
 		opacity: 0.7;
 		}
-		
-
-	.top-menu .menu-links {
-		display: flex;
-		justify-content: center;
-		flex-wrap: nowrap;
-		gap: 12px;
-		width: 100%;
-		}
-
-	.top-menu .menu-actions {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		width: 100%;
-		align-items: center;
-		}
-
-	.top.menu button {
-		width: 100%;
-		max-width: 260px;
-		}
+	
 
   
 	/* BOTONES SIEMPRE VISIBLES Y ARRIBA*/
