@@ -188,9 +188,6 @@
     /* ===== PARA DARLE FORMATO A LA PANTALLA DEL MOVIL */
 
     @media (max-width: 600px) {
-	*{
-	  outline: 1px solid rgba(255,0,0,0.05);
-	  }      
 	body {
 		overflowy-y: auto;
 	     }
@@ -209,17 +206,27 @@
 	.sidebar {
 		width: 100%;
 		height: 56px
+		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 		gap: 16px;
 		position: sticky;
 		top: 0;
-		z-index: 50;
+		z-index: 100;
 		border-right: none;
 		border-bottom: 1px solid #0a1cff;
+		background-color: #0b0b0b;
+		padding: 0;
 		}
 
+	.sidebar .icon {
+		margin: 0;
+		width: 40px;
+		height: 40px;
+		font-size: 18px
+		}
+			
 	.hero {
 		min-height: 60vh;
 		background-size: cover;
@@ -282,6 +289,10 @@
   		padding: 10px 16px;
   		font-size: 14px;
   		border-radius: 22px;
+		}
+
+	.holder::before, .holder::after, .holder .hero::before, .holder .hero::after, .holder . overlay {
+		pointer.events: none !important;
 		}
 
    }
