@@ -188,8 +188,22 @@
     /* ===== PARA DARLE FORMATO A LA PANTALLA DEL MOVIL */
 
     @media (max-width: 600px) {
-      .app {
+      
+	body {
+		overflowy-y: auto;
+	     }
+
+	.app {
         flex-direction: column;
+	height: auto;
+	min-height: 100vh;
+	}
+
+	.content {
+		overflow-y: auto;
+		overflow-x: hidden;
+		}
+		
 	/* Botones grandes y tocables */
 	.top-menu button {
   		flex: 1 1 100%;
@@ -205,11 +219,10 @@
   		opacity: 1;
   		transform: translateY(0);
 	         }
-     }
-
  	
    }
-      /* ACABA LA FUNCION @MEDIA, QUE DA FORMATO A LA WEB DEL MOVIL*/
+   
+    /* ACABA LA FUNCION @MEDIA, QUE DA FORMATO A LA WEB DEL MOVIL*/
     /* ===== LE DA FORMATO A LOS BOTONES, FONDO AZUL REDONDEADOS, CON LETRA BLANCA... ==== */
       .top-menu button {
       background: #0a1cff;
