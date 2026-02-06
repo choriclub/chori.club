@@ -278,15 +278,6 @@
 		opacity: 0.7;
 		}*/
 		
-	
-	.hero {
-    		min-height: 65vh;
-    		padding: 16px;
-    		border-radius: 18px;
-    		background-size: cover;
-    		background-position: center;
-  		}
-		
 
 	/*.hero h1 {
 		font.size: 34px;
@@ -297,55 +288,60 @@
 		font-size: 16px;
 		}*/
 
- 	/* CONTENEDOR INTERNO */
-	.hero-inner {
-    		display: flex;
-    		flex-direction: column;
-    		gap: 16px;
-  		}
+ 	/* HERO CONTENEDOR */
+  .hero {
+    padding: 16px;
+    min-height: 65vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* FILA PRINCIPAL */
+  .hero-inner {
+    display: flex;
+    flex-direction: row; /* 🔴 CLAVE */
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* COLUMNA IZQUIERDA – SPEECH */
+  .hero-left {
+    width: 50%;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(10, 28, 255, 0.25);
+
+    text-align: left;
+    box-sizing: border-box;
+  }
+
+  .hero-left p,
+  .hero-left h3 {
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+  }
+
+  /* COLUMNA DERECHA – MENSAJE PRINCIPAL */
+  .hero-right {
+    width: 50%;
+    box-sizing: border-box;
+  }
+
+  .hero-right h1 {
+    font-size: 26px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .hero-right p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+
 	
-  	/* SPEECH (IZQUIERDA) */
-  	.hero-left {
-    		width: 100%;
-    		padding: 14px;
-    		border-radius: 12px;
-    		background: rgba(10, 28, 255, 0.25);
-
-	    /* 🔴 CLAVE: NO BLOQUEA TAPS */
-    		pointer-events: none;
-  		}
-
-  	/* TEXTO DEL SPEECH */
-  	.hero-left p, .hero-left h3 {
-    		margin: 0;
-    		text-align: left;
-    		line-height: 1.5;
-
-	    /* El texto sí es interactivo */
-    		pointer-events: auto;
-  		}
-
-  	/* MENSAJE PRINCIPAL (DERECHA) */
-  	.hero-right {
-    		width: 100%;
-    		text-align: center;
-  		}
-
-  	.hero-right h1 {
-    		font-size: 28px;
-    		line-height: 1.2;
-    		margin-bottom: 10px;
-  		}
-
-  	.hero-right p {
-    		font-size: 15px;
-    		line-height: 1.6;
-    		max-width: 100%;
-  		}	
-	
-	
-		/* Cards en columna */
-  	  .cards {
+	/* Cards en columna */
+  	.cards {
     		display: flex;	
     		flex-direction: column;
     		gap: 16px;
