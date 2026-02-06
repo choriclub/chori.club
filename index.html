@@ -203,6 +203,19 @@
 		overflow-x: hidden;
 		}
 
+	.top-menu {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		gap: 12px;
+		position: sticky;
+		top: 56px;
+		z-index: 90;
+		background-color: #0b0b0b;
+		padding: 12px 8px:
+
+		}
 	.sidebar {
 		width: 100%;
 		height: 56px
@@ -279,7 +292,11 @@
 	  /* Mostrar al hacer TAP */
   	.card.active .card-overlay {
     		opacity: 1;
+		pointer-events: auto;
   		}
+	.card-overlay {
+		pointer-events: none;
+		}
 
 		
 	/* Botones grandes y tocables */
@@ -291,9 +308,7 @@
   		border-radius: 22px;
 		}
 
-	.holder::before, .holder::after, .holder .hero::before, .holder .hero::after, .holder . overlay {
-		pointer.events: none !important;
-		}
+	
 
    }
    
