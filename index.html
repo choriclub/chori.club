@@ -663,11 +663,11 @@
       <!-- HERO -->
         <section class="hero">
 
-        <div class="hero-inner">
+    <div class="hero-inner">
 	   <div class="hero-left">
-        	<h2>How access works</h2>
+        <h2>How access works</h2>
   		<p>
-    			CHORI Club is not open by registration.
+    	    CHORI Club is not open by registration.
     			It doesn’t work with emails, passwords, or accounts.
   		</p>
 
@@ -678,17 +678,17 @@
   		</p>
 
   		<h3>The tiers</h3>
- 	 	<ul>
+         <ul>
     		   <li><strong>Red Label</strong> — Entry tier. All current holders start here.</li>
-   		   <li><strong>Black Label</strong> — Higher commitment, more relevance.</li>
+   		       <li><strong>Black Label</strong> — Higher commitment, more relevance.</li>
     		   <li><strong>Green Label</strong> — Limited tier. Fewer members.</li>
     		   <li><strong>Blue Label</strong> — Highest tier. Manual approval may apply.</li>
   	       </ul>
 
-               <p>
+        <p>
     		Tiers are not cosmetic.
     		They define who sees what, who can participate, and how.
-  	      </p>
+  	     </p>
 	   </div>
 	   <div class="hero-right">
 		<h1>Chorizos Parrilleros Club</h1>
@@ -805,6 +805,18 @@ const ERC20_ABI = [
 ];
 
 async function enterClubDesktop() {
+    
+    // 🔁 SEGUNDA PULSACIÓN: entrar ya como holder
+  if (document.body.classList.contains("holder-ready")) {
+            document.body.classList.remove("holder-ready");
+            document.body.classList.add("holder");
+            document.querySelector(".hero").innerHTML=
+          `<h1>Welcome to Chori Club </h1>	
+          <p> Status veried on-chain.
+        	Private access granted.</p>`; 	
+             
+    return; // ⛔ aquí se corta TODO
+  }
   try {
     if (!window.ethereum) {
       alert("MetaMask not detected");
@@ -833,13 +845,24 @@ async function enterClubDesktop() {
 
     // 4. Decisión FINAL
     if (balance.gt(0)) {
-      document.body.classList.add("holder");
-      document.querySelector(".hero").innerHTML=
-      `<h1>Welcome to Chori Club </h1>		
-      <p> Status veried on-chain.
-	Private access granted.</p>`; 	
-    } else {
-      alert("You must hold CHORI to enter the club");
+    document.body.classList.add("holder-ready");
+
+      // 👉 alerta CLARA
+      alert(
+        "Welcome to Chori Club.\n" +
+        "Your status has been verified on-chain.\n\n" +
+        "👉 Please press 'Enter the Club' again to access the private area."
+      );
+
+      // 👉 botón verde
+      const btn = document.getElementById("enterClubBtn");
+      if (btn) {
+        btn.style.background = "#1db954";
+        btn.style.borderColor = "#1db954";
+        btn.textContent = "Enter the Club ✓";
+      }
+
+      return; // ⛔ NO entrar aún
     }
 
   } catch (err) {
